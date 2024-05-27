@@ -1,5 +1,5 @@
 import pytest
-
+from data import the_book
 from main import BooksCollector
 
 
@@ -7,12 +7,9 @@ from main import BooksCollector
 def collector():
     return BooksCollector()
 
-@pytest.fixture
-def the_book():
-    return 'Война и мир'
 
 @pytest.fixture
-def collector_with_the_book(the_book):
+def collector_with_the_book():
     collector = BooksCollector()
     collector.add_new_book(the_book)
     return collector

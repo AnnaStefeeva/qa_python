@@ -1,4 +1,5 @@
 import pytest
+from data import the_book
 
 
 class TestBooksCollector:
@@ -19,20 +20,20 @@ class TestBooksCollector:
         collector.add_new_book(new_book)
         assert collector.get_book_genre(new_book) is None
 
-    def test_add_new_book_add_the_same_book_twice(self, collector_with_the_book, the_book):
+    def test_add_new_book_add_the_same_book_twice(self, collector_with_the_book):
         collector_with_the_book.add_new_book(the_book)
         assert len(collector_with_the_book.get_books_genre()) == 1
 
     @pytest.mark.parametrize('genre', ['Фантастика', 'Ужасы', 'Детективы', 'Мультфильмы', 'Комедии'])
-    def test_set_book_genre_set_book_correct_genre(self, collector_with_the_book, the_book, genre):
+    def test_set_book_genre_set_book_correct_genre(self, collector_with_the_book, genre):
         collector_with_the_book.set_book_genre(the_book, genre)
         assert collector_with_the_book.get_book_genre(the_book) == genre
 
-    def test_set_book_genre_set_book_incorrect_genre(self, collector_with_the_book, the_book):
+    def test_set_book_genre_set_book_incorrect_genre(self, collector_with_the_book):
         collector_with_the_book.set_book_genre(the_book, 'Комикс')
         assert collector_with_the_book.get_book_genre(the_book) == ''
 
-    def test_get_book_genre_get_genre_for_incorrect_book(self, collector_with_the_book, the_book):
+    def test_get_book_genre_get_genre_for_incorrect_book(self, collector_with_the_book):
         assert collector_with_the_book.get_book_genre(the_book + '2') is None
 
     @pytest.mark.parametrize('genre', ['Фантастика', 'Ужасы', 'Детективы', 'Мультфильмы', 'Комедии'])
@@ -48,12 +49,12 @@ class TestBooksCollector:
         assert new_book_1 in books
         assert new_book_2 in books
 
-    def test_add_book_in_favorites_add_in_favorites_one_book(self, collector_with_the_book, the_book):
+    def test_add_book_in_favorites_add_in_favorites_one_book(self, collector_with_the_book):
         assert len(collector_with_the_book.get_list_of_favorites_books()) == 0
         collector_with_the_book.add_book_in_favorites(the_book)
         assert collector_with_the_book.get_list_of_favorites_books() == [the_book]
 
-    def test_delete_book_from_favorites_delete_1_book_from_favorites(self, collector_with_the_book, the_book):
+    def test_delete_book_from_favorites_delete_1_book_from_favorites(self, collector_with_the_book):
         collector_with_the_book.add_book_in_favorites(the_book)
         collector_with_the_book.delete_book_from_favorites(the_book)
         assert len(collector_with_the_book.get_books_genre()) == 1
@@ -71,11 +72,11 @@ class TestBooksCollector:
         assert 'Вафельное сердце' in books_for_children
         assert 'Золушка' in books_for_children
 
-    def test_get_books_genre_get_books_genre_of_1_book(self, collector_with_the_book, the_book):
+    def test_get_books_genre_get_books_genre_of_1_book(self, collector_with_the_book):
         assert len(collector_with_the_book.get_books_genre()) == 1
         assert the_book in collector_with_the_book.get_books_genre()
 
-    def test_get_list_of_favorites_books_get_2_favorites_books(self, collector_with_the_book, the_book):
+    def test_get_list_of_favorites_books_get_2_favorites_books(self, collector_with_the_book):
         collector_with_the_book.add_new_book(the_book + '2')
         collector_with_the_book.add_book_in_favorites(the_book)
         collector_with_the_book.add_book_in_favorites(the_book + '2')
